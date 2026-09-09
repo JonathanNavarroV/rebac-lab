@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Aquí vive EL MOTOR estilo Zanzibar: el parser del DSL, CheckEngine, ExpandEngine y
+    las dos estrategias de ListObjects. Más los casos de uso CQRS que lo exponen.
+
+    Depende del dominio (tipos del modelo) y de las abstracciones de almacenamiento,
+    nunca de EF Core: el motor pide tuplas a IRelationshipTupleStore y no sabe si vienen
+    de Postgres, de memoria o de un fichero. Por eso la suite de conformidad puede
+    ejecutarlo con un store en memoria.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Playground.AccessControl.Application</RootNamespace>
+    <AssemblyName>Playground.AccessControl.Application</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\domain\Playground.AccessControl.Domain.csproj" />
+    <ProjectReference Include="..\..\shared\contracts\Playground.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

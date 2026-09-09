@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Dominio de negocio: organizaciones, equipos, grupos, proyectos, carpetas y recursos.
+
+    Fíjate en lo que NO hay aquí: ni una entidad Permission, ni Role, ni AccessList, ni
+    un campo OwnerId. Ninguna entidad de negocio sabe quién puede tocarla. Ese es el
+    resultado práctico de tener un módulo de control de acceso separado.
+
+    Sí define el PUERTO que el negocio necesita (IAccessControlService): "quiero poder
+    preguntar si un sujeto puede hacer algo sobre un objeto". El negocio declara la
+    pregunta; el módulo de control de acceso decide cómo responderla.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Playground.Business.Domain</RootNamespace>
+    <AssemblyName>Playground.Business.Domain</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\contracts\Playground.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

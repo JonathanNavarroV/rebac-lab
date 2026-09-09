@@ -1,0 +1,48 @@
+# ── .NET ─────────────────────────────────────────────────────────────────────
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+*.userprefs
+.vs/
+artifacts/
+TestResults/
+coverage*.json
+coverage*.xml
+*.coverage
+*.trx
+
+# Las migraciones SÍ se versionan: son parte del esquema, no un artefacto de compilación.
+# (No se ignora Persistence/Migrations a propósito.)
+
+# ── Node / Angular ───────────────────────────────────────────────────────────
+node_modules/
+dist/
+.angular/
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ── Editores ─────────────────────────────────────────────────────────────────
+.idea/
+*.swp
+*~
+
+# ── Sistema ──────────────────────────────────────────────────────────────────
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# ── Secretos locales ─────────────────────────────────────────────────────────
+# Las credenciales del laboratorio (playground/playground) están en appsettings.json
+# a propósito: son de juguete y hacen falta para que el repo arranque de un tirón.
+# Cualquier configuración real iría aquí y no se sube.
+appsettings.Local.json
+appsettings.*.Local.json
+.env
+.env.local
+*.pfx
+*.key

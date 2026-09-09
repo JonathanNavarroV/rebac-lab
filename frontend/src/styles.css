@@ -1,0 +1,55 @@
+@import 'tailwindcss';
+
+/*
+  Paleta del laboratorio.
+
+  Los colores no son decorativos: cada tipo de objeto del modelo de autorización tiene
+  el suyo, y se usa el MISMO en el grafo, en la traza, en los selectores y en las
+  listas. Poder reconocer de un vistazo que un nodo es un equipo y no una organización
+  es lo que hace legible un grafo de relaciones.
+*/
+@theme {
+  --color-obj-user: oklch(0.72 0.15 250);
+  --color-obj-organization: oklch(0.68 0.16 25);
+  --color-obj-team: oklch(0.72 0.15 145);
+  --color-obj-group: oklch(0.75 0.15 85);
+  --color-obj-project: oklch(0.70 0.16 300);
+  --color-obj-folder: oklch(0.75 0.13 200);
+  --color-obj-resource: oklch(0.70 0.02 260);
+
+  --color-allow: oklch(0.68 0.17 150);
+  --color-deny: oklch(0.65 0.20 25);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-950 text-slate-200 antialiased;
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+/* La notación de tuplas se lee mucho mejor en monoespaciada. */
+.tuple {
+  font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, monospace;
+  font-size: 0.8125rem;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-slate-700;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-600;
+}

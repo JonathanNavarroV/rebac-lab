@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Casos de uso de negocio. Cada handler que toca algo protegido pregunta al puerto
+    IAccessControlService y no sabe nada más.
+
+    Nota importante: este proyecto NO referencia Playground.AccessControl.*. Si intentas
+    añadir esa referencia, el test de arquitectura de la suite falla. La única forma de
+    autorizar desde aquí es a través del puerto.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Playground.Business.Application</RootNamespace>
+    <AssemblyName>Playground.Business.Application</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\domain\Playground.Business.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

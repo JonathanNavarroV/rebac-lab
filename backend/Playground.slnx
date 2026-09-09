@@ -1,0 +1,37 @@
+<Solution>
+  <Folder Name="/access-control/" />
+  <Folder Name="/access-control/application/">
+    <Project Path="access-control/application/Playground.AccessControl.Application.csproj" />
+  </Folder>
+  <Folder Name="/access-control/domain/">
+    <Project Path="access-control/domain/Playground.AccessControl.Domain.csproj" />
+  </Folder>
+  <Folder Name="/access-control/infrastructure/">
+    <Project Path="access-control/infrastructure/Playground.AccessControl.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/access-control/presentation/">
+    <Project Path="access-control/presentation/Playground.AccessControl.Api.csproj" />
+  </Folder>
+  <Folder Name="/business/" />
+  <Folder Name="/business/application/">
+    <Project Path="business/application/Playground.Business.Application.csproj" />
+  </Folder>
+  <Folder Name="/business/domain/">
+    <Project Path="business/domain/Playground.Business.Domain.csproj" />
+  </Folder>
+  <Folder Name="/business/infrastructure/">
+    <Project Path="business/infrastructure/Playground.Business.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/business/presentation/">
+    <Project Path="business/presentation/Playground.Business.Api.csproj" />
+  </Folder>
+  <Folder Name="/shared/" />
+  <Folder Name="/shared/contracts/">
+    <Project Path="shared/contracts/Playground.Contracts.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AccessControl.ConformanceTests/AccessControl.ConformanceTests.csproj" />
+    <Project Path="tests/AccessControl.UnitTests/AccessControl.UnitTests.csproj" />
+    <Project Path="tests/Business.UnitTests/Business.UnitTests.csproj" />
+  </Folder>
+</Solution>

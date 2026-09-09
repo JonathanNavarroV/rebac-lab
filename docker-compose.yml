@@ -1,0 +1,109 @@
+# Authorization Playground — infraestructura del laboratorio
+#
+# DOS bases de datos, y eso no es decoración:
+#
+#   postgres-business        organizaciones, equipos, grupos, proyectos, carpetas, recursos
+#   postgres-access-control  relationship_tuples, authorization_models, decision_audit
+#
+# Al estar separadas, es IMPOSIBLE hacer un JOIN entre un proyecto y quién tiene acceso
+# a él. No es una restricción artificial: es exactamente la situación de cualquier equipo
+# que usa Zanzibar/OpenFGA/SpiceDB en producción, y es lo que obliga a razonar en términos
+# de relaciones en lugar de tirar de SQL. Si estuvieran en la misma base, la tentación de
+# resolver el listado autorizado con un JOIN sería irresistible, y no se aprendería nada.
+#
+# Uso normal (recomendado para el laboratorio):
+#   docker compose up -d
+#   → levanta solo las dos bases. Las dos APIs y el frontend se ejecutan en local,
+#     que es mucho más cómodo para depurar el motor paso a paso.
+#
+# Todo containerizado:
+#   docker compose --profile full up -d --build
+
+name: authorization-playground
+
+services:
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Bases de datos
+  # ─────────────────────────────────────────────────────────────────────────────
+
+  postgres-business:
+    image: postgres:17
+    container_name: playground-postgres-business
+    environment:
+      POSTGRES_DB: playground_business
+      POSTGRES_USER: playground
+      POSTGRES_PASSWORD: playground
+    ports:
+      - "15432:5432"
+    volumes:
+      - postgres-business-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U playground -d playground_business"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  postgres-access-control:
+    image: postgres:17
+    container_name: playground-postgres-access-control
+    environment:
+      POSTGRES_DB: playground_access_control
+      POSTGRES_USER: playground
+      POSTGRES_PASSWORD: playground
+    ports:
+      - "15433:5432"
+    volumes:
+      - postgres-access-control-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U playground -d playground_access_control"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Servicios (perfil "full" — normalmente se ejecutan en local con dotnet run)
+  # ─────────────────────────────────────────────────────────────────────────────
+
+  access-control-api:
+    profiles: ["full"]
+    build:
+      context: ./backend
+      dockerfile: access-control/presentation/Dockerfile
+    container_name: playground-access-control-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 8080
+      ConnectionStrings__AccessControlDb: "Host=postgres-access-control;Port=5432;Database=playground_access_control;Username=playground;Password=playground"
+    ports:
+      - "15101:8080"
+    depends_on:
+      postgres-access-control:
+        condition: service_healthy
+
+  business-api:
+    profiles: ["full"]
+    build:
+      context: ./backend
+      dockerfile: business/presentation/Dockerfile
+    container_name: playground-business-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 8080
+      ConnectionStrings__BusinessDb: "Host=postgres-business;Port=5432;Database=playground_business;Username=playground;Password=playground"
+      ConnectionStrings__AccessControlDb: "Host=postgres-access-control;Port=5432;Database=playground_access_control;Username=playground;Password=playground"
+      # En contenedor tiene sentido el modo Remote: el negocio llama al módulo por red,
+      # igual que en un despliegue real. En local se arranca en InProcess para comparar.
+      Authorization__Mode: "Remote"
+      Authorization__RemoteBaseUrl: "http://access-control-api:8080"
+    ports:
+      - "15100:8080"
+    depends_on:
+      postgres-business:
+        condition: service_healthy
+      access-control-api:
+        condition: service_started
+
+volumes:
+  postgres-business-data:
+  postgres-access-control-data:

@@ -1,0 +1,17 @@
+<Project>
+
+  <!--
+    En psinet las propiedades comunes se repiten en cada csproj porque son 7 módulos
+    con soluciones independientes. Aquí es una sola solución con 11 proyectos, así que
+    centralizamos SOLO las tres propiedades de compilación. Las versiones de paquetes
+    siguen declarándose por csproj, como en tus otros repos, para que se vea de un
+    vistazo qué depende cada capa.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+</Project>

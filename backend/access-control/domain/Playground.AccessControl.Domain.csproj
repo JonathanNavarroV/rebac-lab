@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    El corazón conceptual del proyecto: los tipos del modelo Zanzibar (tuplas, usersets,
+    reglas de reescritura) y los contratos del motor.
+
+    Sin NINGUNA dependencia de paquetes a propósito. Todo lo que hay aquí es lógica pura
+    y tipos inmutables: se puede razonar sobre el modelo de autorización sin saber nada
+    de EF Core, HTTP ni MediatR. Si algún día alguien mete un paquete aquí, seguramente
+    esté poniendo algo en la capa equivocada.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Playground.AccessControl.Domain</RootNamespace>
+    <AssemblyName>Playground.AccessControl.Domain</AssemblyName>
+  </PropertyGroup>
+
+</Project>

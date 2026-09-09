@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Contratos compartidos entre el servicio de negocio y el módulo de control de acceso.
+    Son los DTOs que viajan por HTTP cuando el negocio corre en modo "Remote".
+
+    Deliberadamente NO contiene lógica ni referencias: si este proyecto necesitara
+    referenciar el dominio de control de acceso, significaría que el negocio conoce
+    el modelo de autorización, que es justo lo que queremos evitar.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Playground.Contracts</RootNamespace>
+    <AssemblyName>Playground.Contracts</AssemblyName>
+  </PropertyGroup>
+
+</Project>

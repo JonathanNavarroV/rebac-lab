@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Suite de CONFORMIDAD, separada de los unitarios a propósito.
+
+    Los unitarios comprueban implementación (que el parser parsea, que el store consulta).
+    Esta suite comprueba SEMÁNTICA: dado un modelo y unas tuplas, qué debe responder
+    cualquier motor que se diga compatible con Zanzibar. Los casos A–H del laboratorio
+    viven aquí.
+
+    La clase base recibe un IAccessControlEngine, así que si algún día añades un adaptador
+    contra OpenFGA o SpiceDB, heredas la suite y sabes si tu motor es equivalente.
+  -->
+  <PropertyGroup>
+    <RootNamespace>AccessControl.ConformanceTests</RootNamespace>
+    <AssemblyName>AccessControl.ConformanceTests</AssemblyName>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageReference Include="FluentAssertions" Version="7.2.2" />
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\access-control\domain\Playground.AccessControl.Domain.csproj" />
+    <ProjectReference Include="..\..\access-control\application\Playground.AccessControl.Application.csproj" />
+  </ItemGroup>
+
+</Project>

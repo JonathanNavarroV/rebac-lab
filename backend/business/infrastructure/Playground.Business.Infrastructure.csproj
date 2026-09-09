@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    LA COSTURA DEL PROYECTO.
+
+    Este es el único proyecto donde el mundo del negocio y el mundo del control de acceso
+    se tocan, y lo hace mediante dos adaptadores del puerto IAccessControlService:
+
+      InProcessAccessControlService  → instancia el motor aquí mismo. Latencia ~0.
+      RemoteAccessControlService     → HttpClient contra playground-access-control:5101.
+
+    Se elige por configuración ("Authorization:Mode"). Que ambos existan es lo que permite
+    medir en pantalla cuánto cuesta que el control de acceso sea un servicio remoto, que es
+    la situación real de Zanzibar en Google.
+
+    Referencia a AccessControl.* solo para el modo InProcess. En un sistema de producción
+    con el módulo siempre remoto, esta referencia no existiría.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Playground.Business.Infrastructure</RootNamespace>
+    <AssemblyName>Playground.Business.Infrastructure</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\application\Playground.Business.Application.csproj" />
+    <ProjectReference Include="..\domain\Playground.Business.Domain.csproj" />
+    <!-- Solo para el adaptador InProcess. Ver comentario de cabecera. -->
+    <ProjectReference Include="..\..\access-control\application\Playground.AccessControl.Application.csproj" />
+    <ProjectReference Include="..\..\access-control\infrastructure\Playground.AccessControl.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Business.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+</Project>
