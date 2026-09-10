@@ -16,6 +16,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/cases/cases.component').then((m) => m.CasesComponent),
   },
   {
+    path: 'tour',
+    title: 'Tour guiado · Authorization Playground',
+    loadComponent: () => import('./features/tour/tour.component').then((m) => m.TourComponent),
+  },
+  {
     path: 'explorer',
     title: 'Authorization Explorer',
     loadComponent: () =>

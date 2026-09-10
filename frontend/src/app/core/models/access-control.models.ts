@@ -219,3 +219,68 @@ export interface GuidedCase {
   whyRbacStruggles: string | null;
   minimumPaths: number;
 }
+
+// ═════════════════════════════════════════════════════════════════════════════
+// Tour guiado
+// ═════════════════════════════════════════════════════════════════════════════
+
+export interface TourOption {
+  key: string;
+  text: string;
+}
+
+/**
+ * Una pregunta antes de responderla.
+ *
+ * No trae ni la opción correcta ni la explicación: el backend las guarda hasta que respondes,
+ * porque el ejercicio consiste en apostar antes de mirar y con la respuesta en el JSON
+ * bastaría abrir las herramientas de desarrollo.
+ */
+export interface TourQuestion {
+  code: string;
+  lessonCode: string;
+  kind: 'prediction' | 'concept';
+  statement: string;
+  options: TourOption[];
+  hint: string | null;
+  hasEvidence: boolean;
+}
+
+export interface TourLesson {
+  code: string;
+  title: string;
+  intro: string;
+  facts: string[];
+  modelSnippet: string | null;
+  questions: TourQuestion[];
+}
+
+export interface TourListComparison {
+  objects: string[];
+  naiveMetrics: CheckMetrics;
+  reverseMetrics: CheckMetrics;
+  sameResult: boolean;
+  verdict: string;
+}
+
+/** Lo que el motor contestó de verdad al responder, no un texto escrito a mano. */
+export interface TourEvidence {
+  kind: 'check' | 'list-comparison';
+  label: string;
+  subject: string;
+  relation: string;
+  object: string;
+  matchesExpectation: boolean | null;
+  check: CheckResponse | null;
+  comparison: TourListComparison | null;
+}
+
+export interface TourAnswer {
+  questionCode: string;
+  correct: boolean;
+  chosenOptionKey: string;
+  correctOptionKey: string;
+  explanation: string;
+  evidence: TourEvidence[];
+  scenarioWarning: string | null;
+}

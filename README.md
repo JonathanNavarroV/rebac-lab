@@ -44,11 +44,14 @@ tuplas; los modelos publicados se conservan.
 
 ## Por dónde empezar
 
-1. **Casos guiados** (`/cases`) — 16 preguntas, cada una enseña algo distinto. Empieza aquí.
-2. **Explorer** (`/explorer`) — la misma pregunta, con el árbol de evaluación completo.
-3. **Relaciones** (`/relationships`) — crea una tupla y mira qué decisiones cambian.
-4. **Listado autorizado** (`/objects`) — naive contra expansión inversa, con métricas.
-5. **RBAC vs ReBAC** (`/comparison`) — la misma pregunta por los dos modelos.
+1. **Tour guiado** (`/tour`) — **empieza aquí.** Once lecciones en forma de preguntas de
+   predicción: apuestas por una respuesta y el sistema **ejecuta la pregunta contra el motor**
+   para enseñarte qué contesta de verdad, con su traza y su coste, antes de explicarte por qué.
+2. **Casos guiados** (`/cases`) — 16 preguntas con su respuesta actual y qué enseña cada una.
+3. **Explorer** (`/explorer`) — pregunta lo que quieras, con el árbol de evaluación completo.
+4. **Relaciones** (`/relationships`) — crea una tupla y mira qué decisiones cambian.
+5. **Listado autorizado** (`/objects`) — naive contra expansión inversa, con métricas.
+6. **RBAC vs ReBAC** (`/comparison`) — la misma pregunta por los dos modelos.
 
 Y en paralelo, la documentación:
 
@@ -60,7 +63,7 @@ Y en paralelo, la documentación:
 | [4. ListObjects y rendimiento](docs/04-list-objects-y-rendimiento.md) | El problema difícil, con números medidos |
 | [5. ReBAC vs RBAC vs ABAC](docs/05-rebac-vs-rbac-vs-abac.md) | Cuándo usar cada uno, sin vender ninguno |
 | [6. Caching, consistencia, concurrencia](docs/06-caching-consistencia-concurrencia.md) | Zookies, invalidación y lo que aquí **no** está |
-| [7. Tour guiado](docs/07-tour-guiado.md) | Aprende el motor prediciendo sus respuestas antes de ejecutarlas |
+| [7. Tour guiado](docs/07-tour-guiado.md) | Lo mismo que `/tour` pero para leer sin levantar nada, con los `curl` equivalentes |
 
 ---
 

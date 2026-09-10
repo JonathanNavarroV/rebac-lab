@@ -51,6 +51,7 @@ public static class DependencyInjection
 
         services.AddScoped<IObjectCatalog, TupleDerivedObjectCatalog>();
         services.AddScoped<IAccessControlEngine, AccessControlEngine>();
+        services.AddScoped<Application.Authorization.Tour.TourService>();
         services.AddScoped<Seeding.AccessControlSeeder>();
 
         return services;

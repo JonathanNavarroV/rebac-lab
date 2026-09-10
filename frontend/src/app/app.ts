@@ -121,10 +121,16 @@ export class App implements OnInit {
 
   protected readonly navItems: NavItem[] = [
     {
+      path: '/tour',
+      label: 'Tour guiado',
+      icon: '🎓',
+      hint: 'Once lecciones: predice la respuesta y comprueba ejecutándola contra el motor.',
+    },
+    {
       path: '/cases',
       label: 'Casos guiados',
-      icon: '🎓',
-      hint: 'Por dónde empezar: 16 preguntas con su respuesta y qué enseña cada una.',
+      icon: '📌',
+      hint: '16 preguntas con su respuesta actual y qué enseña cada una.',
     },
     {
       path: '/explorer',

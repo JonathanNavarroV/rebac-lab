@@ -99,6 +99,18 @@ Todas tienen motivo. No "arreglarlas" sin releer el motivo.
 - Añadir un caso guiado nuevo = añadirlo a `Cases`. Aparece automáticamente en los tests, en el
   frontend y en el diff de "decisiones afectadas".
 
+### El cuestionario (`TourQuestions`)
+
+- Es la fuente única de `/tour` y de `docs/07`. Si cambias una lección, cambia en los dos.
+- Una pregunta `prediction` **tiene que declarar sondas con expectativa** (`ExpectedAllowed`,
+  `ExpectedMinimumPaths` o `ExpectedReverseReadsFewerTuples`). `TourQuestionsTests` las ejecuta
+  todas contra el motor y falla si alguna deja de cumplirse: es lo que impide que el
+  cuestionario enseñe algo falso después de tocar el modelo.
+- Las de tipo `concept` preguntan por criterios de diseño y no se pueden ejecutar; esas sí
+  pueden ir sin sondas.
+- **La respuesta correcta y la explicación no se sirven en el `GET`.** Solo se devuelven al
+  responder. Si algún día se mueven al listado, el ejercicio deja de tener sentido.
+
 ### Tests
 
 - xUnit + Moq + FluentAssertions + AutoFixture, naming `Handle_<Scenario>_<ExpectedResult>`.

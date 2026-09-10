@@ -15,6 +15,8 @@ import {
   ModelTemplate,
   Relationship,
   RelationshipMutationResponse,
+  TourAnswer,
+  TourLesson,
 } from '../models/access-control.models';
 
 /**
@@ -162,6 +164,25 @@ export class AccessControlApi {
 
   getGuidedCases(): Promise<GuidedCase[]> {
     return firstValueFrom(this.http.get<GuidedCase[]>(`${this.base}/access-control/cases`));
+  }
+
+  // ── Tour guiado ───────────────────────────────────────────────────────────
+
+  getTour(): Promise<TourLesson[]> {
+    return firstValueFrom(this.http.get<TourLesson[]>(`${this.base}/access-control/tour`));
+  }
+
+  /**
+   * Responde una pregunta. La corrección y la evidencia se calculan en el servidor: aquí no
+   * hay forma de saber la respuesta antes de enviarla, que es justo lo que se busca.
+   */
+  answerTourQuestion(questionCode: string, optionKey: string): Promise<TourAnswer> {
+    return firstValueFrom(
+      this.http.post<TourAnswer>(`${this.base}/access-control/tour/answer`, {
+        questionCode,
+        optionKey,
+      }),
+    );
   }
 
   resetScenario(): Promise<{ reset: boolean; tuples: number }> {

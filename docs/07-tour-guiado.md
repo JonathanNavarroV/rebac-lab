@@ -1,5 +1,15 @@
 # 07 — Tour guiado: aprende el motor preguntándole
 
+> **Hay una versión interactiva de esto en http://localhost:14200/tour**, y para aprender es
+> mejor. Allí eliges la respuesta y el sistema **ejecuta la pregunta contra el motor** antes de
+> explicarte nada: ves el árbol de evaluación y las métricas de esa ejecución concreta, sobre
+> las tuplas que tengas en ese momento. Además lleva la cuenta de lo que llevas acertado.
+>
+> Este documento sigue siendo útil para leer sin levantar nada, o para ver los comandos `curl`
+> equivalentes. Las dos versiones salen de la misma definición
+> ([`TourQuestions.cs`](../backend/access-control/application/Authorization/Seed/TourQuestions.cs)),
+> así que no pueden contradecirse.
+
 Este documento es un recorrido en forma de **preguntas de predicción**. La mecánica es
 siempre la misma: lee el contexto, decide qué crees que responderá el motor, y solo
 entonces ejecuta el comando. Acertar enseña menos que fallar, así que conviene apostar de
@@ -377,11 +387,38 @@ un objeto del conjunto, y no hay forma de saber cuáles sin comprobarlo uno a un
 motor, cuando la relación tiene exclusiones, hace una pasada de **confirmación** sobre los
 candidatos: la inversa propone, el `Check` dispone.
 
-**9.2 y 9.3 —** Compara los `metrics` de las dos estrategias en la respuesta de `compare`: la
-inversa lee bastantes menos tuplas, y la diferencia crece con el tamaño del store (la ingenua
-es O(objetos del tipo), la inversa es O(lo alcanzable desde el sujeto)). El campo
-`confirmationChecks` de las métricas te dice exactamente cuántas comprobaciones extra costó
-la no monotonía.
+**9.2 — La inversa, y por bastante.** Medido sobre el escenario inicial:
+
+| `user:maria` / `can_edit` / `resource` | Tuplas leídas | Consultas | Confirmaciones |
+|---|---|---|---|
+| Ingenua | 20 | 34 | — |
+| Expansión inversa | **16** | **23** | 0 |
+
+`can_edit` sobre `resource` es `editor or owner or can_edit from parent`: todo uniones y
+herencia, es decir reglas **monótonas**. La inversa lo resuelve del tirón, sin confirmar nada.
+
+**9.3 — Y aquí viene lo que casi nunca se cuenta: no siempre gana.** La misma comparación con
+`can_view`, que arrastra el `but not blocked`:
+
+| `user:maria` / `can_view` / `resource` | Tuplas leídas | Consultas | Confirmaciones |
+|---|---|---|---|
+| Ingenua | **27** | **53** | — |
+| Expansión inversa | 46 | 78 | **4** |
+
+La inversa **pierde**. La exclusión no se puede invertir, así que la expansión solo produce
+*candidatos* y hay que confirmar cada uno con un `Check` real: acaba haciendo prácticamente los
+mismos checks que la ingenua, más el coste de la expansión.
+
+Ahí está la respuesta a la 9.3: el `reason` de un `project` dice que la pertenencia al conjunto
+es concluyente porque todas sus reglas son monótonas; el de un `resource` habla de
+comprobaciones de confirmación porque `can_view` termina en una exclusión.
+
+**La conclusión que importa:** la ventaja de la expansión inversa no viene del algoritmo en
+abstracto, viene de la **proporción entre el tamaño del catálogo y el del conjunto accesible**.
+Con cinco recursos y cuatro visibles no hay nada que ahorrar. Con doscientos mil documentos y
+doce visibles, es la diferencia entre una pantalla que carga y una que no — eso lo demuestra el
+test `ListObjects_WhenTheCatalogIsMuchBiggerThanWhatTheSubjectCanSee_ReverseExpansionWins`,
+que añade 200 proyectos invisibles y mide una mejora de más de 10×.
 
 El test `ListObjects_ReverseExpansion_AgreesWithTheNaiveOracle` es el que sostiene todo esto:
 compara las dos estrategias exhaustivamente. Si falla, el bug está en la inversa — la ingenua

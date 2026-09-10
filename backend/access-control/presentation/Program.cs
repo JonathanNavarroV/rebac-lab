@@ -92,7 +92,8 @@ accessControl
     .MapModelEndpoints()
     .MapGraphEndpoints()
     .MapAuditEndpoints()
-    .MapGuidedCaseEndpoints();
+    .MapGuidedCaseEndpoints()
+    .MapTourEndpoints();
 
 accessControl.MapPost("/seed/reset", async (AccessControlSeeder seeder, CancellationToken cancellationToken) =>
     {
