@@ -60,6 +60,7 @@ Y en paralelo, la documentación:
 | [4. ListObjects y rendimiento](docs/04-list-objects-y-rendimiento.md) | El problema difícil, con números medidos |
 | [5. ReBAC vs RBAC vs ABAC](docs/05-rebac-vs-rbac-vs-abac.md) | Cuándo usar cada uno, sin vender ninguno |
 | [6. Caching, consistencia, concurrencia](docs/06-caching-consistencia-concurrencia.md) | Zookies, invalidación y lo que aquí **no** está |
+| [7. Tour guiado](docs/07-tour-guiado.md) | Aprende el motor prediciendo sus respuestas antes de ejecutarlas |
 
 ---
 
